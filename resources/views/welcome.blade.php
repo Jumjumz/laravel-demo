@@ -14,10 +14,10 @@
     <body class=" w-full h-dvh bg-slate-900 flex flex-col justify-evenly items-center">
         <img class=" fixed w-[100rem] h-[100rem] left-0 object-cover -z-10" src="https://laravel.com/assets/img/welcome/background.svg" />
         @auth
-        <div class=" relative">
-            <form action="/logout" method="POST">
+        <div class=" w-[50rem] flex items-end">
+            <form action="/logout" method="POST" class=" w-full h-10 flex flex-row justify-evenly">
                 @csrf
-                <button class=" w-32 h-10 bg-white rounded-2xl font-mono text-xl text-black/70">Log Out</button>
+                <button class=" w-32 h-full bg-white rounded-2xl font-mono text-xl text-black/70">Log Out</button>
             </form>
         </div>
         <div class=" w-[100rem] h-[30rem] flex flex-col justify-evenly items-center">
@@ -33,12 +33,20 @@
                 </form>
             </div>
         </div>
-        <div class=" w-[100rem] h-[50rem] flex flex-col items-center gap-4">
+        <div class=" w-[100rem] h-full flex flex-col items-center gap-4">
             <h1 class=" text-center text-white text-4xl font-sans">Posts</h1>
             @foreach ($posts as $post)
-            <div class=" w-full h-36 p-4 bg-slate-400 flex flex-col items-center gap-6 rounded-xl">
-                <h1 class="m-0 font-bold border-b-2 border-slate-900">{{$post['title']}}</h1>
+            <div class=" w-full h-60 p-4 bg-slate-400 flex flex-col items-center gap-6 rounded-xl">
+                <h1 class="m-0 font-bold border-b-2 border-slate-900">{{$post['title']}} by {{$post->user->name}}</h1>
                 <p class=" text-xl text-black/80">{{$post['body']}}</p>
+                <div class=" w-full h-10 flex flex-row justify-center gap-2">
+                    <form action="/edit-post/{{$post->id}}"><button class=" w-28 h-full bg-blue-800 text-white text-xl font-sans font-bold rounded-xl">Edit</button></form>
+                    <form action="/delete-post/{{$post->id}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class=" w-28 h-full bg-red-800 text-white text-xl font-sans font-bold rounded-xl">Delete</button>
+                    </form>
+                </div>
             </div>
                 
             @endforeach

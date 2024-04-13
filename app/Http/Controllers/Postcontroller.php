@@ -20,4 +20,35 @@ class Postcontroller extends Controller
 
         return redirect('/');
     }
+
+    public function editPost(Post $post) {
+        if(auth()->user()->id !== $post['user_id']) {
+            return redirect('/');
+        }
+        return view('edit-post', ['post' => $post]);
+    }
+
+    public function updatePost(Post $post, Request $request){
+        if(auth()->user()->id === $post['user_id']){
+            $updatedFields = $request->validate([
+                'title' => ['required', 'min:3', 'max:500'],
+                'body' => ['required', 'min:3', 'max:500'],
+            ]);
+
+            $updatedFields['title'] = strip_tags($updatedFields['title']);
+            $updatedFields['body'] = strip_tags($updatedFields['body']);
+
+            $post->update($updatedFields);
+            return redirect('/');
+        }
+        return redirect('/');
+    }
+
+    public function deletePost(Post $post){
+        if(auth()->user()->id === $post['user_id']){
+            $post->delete();
+        }
+
+        return redirect('/');
+    }
 }

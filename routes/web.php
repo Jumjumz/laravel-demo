@@ -23,3 +23,6 @@ Route::post('/login', [UserController::class, 'login']);
 // Blog Post routes
 
 Route::post('/create-post', [Postcontroller::class, 'createPost']);
+Route::get('/edit-post/{post}', [Postcontroller::class, 'editPost']);
+Route::put('edit-post/{post}', [Postcontroller::class, 'updatePost']);
+Route::delete('/delete-post/{post}', [Postcontroller::class, 'deletePost']);
